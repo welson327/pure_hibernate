@@ -7,7 +7,7 @@ import org.hibernate.criterion.Order;
 
 import my.dao.BaseDao;
 
-public class BaseDaoImpl<T> extends HibernateBaseDao implements BaseDao<T> {
+public class BaseDaoImpl<T> extends HibernateSessionManager implements BaseDao<T> {
 	@Override
 	public boolean insert(T entity) {
 		getSession().saveOrUpdate(entity);

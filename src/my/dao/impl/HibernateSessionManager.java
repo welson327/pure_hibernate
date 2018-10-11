@@ -4,7 +4,7 @@ import org.hibernate.Session;
 
 import my.hibernate.HibernateSessionFactory;
 
-public class HibernateBaseDao {
+public class HibernateSessionManager {
 	protected Session getSession() {
 		return HibernateSessionFactory.getSession();
 	}
