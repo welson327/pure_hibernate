@@ -2,7 +2,8 @@ package my.hibernate;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.cfg.Configuration;  
+import org.hibernate.cfg.Configuration;
+import org.hibernate.stat.Statistics;  
   
 /** 
  * Configures and provides access to Hibernate sessions, tied to the 
@@ -68,4 +69,12 @@ public class HibernateSessionFactory {
     public static Configuration getConfiguration() {  
         return configuration;  
     }  
+    
+    public static Statistics getStatistics() {
+    	return sessionFactory.getStatistics();
+    }
+    
+    public static long getSessionOpenCount() {
+    	return sessionFactory.getStatistics().getSessionOpenCount();
+    }
 }  

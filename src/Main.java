@@ -4,6 +4,7 @@ import java.util.List;
 
 import my.dao.EventDao;
 import my.dao.impl.EventDaoImpl;
+import my.hibernate.HibernateSessionFactory;
 import my.model.Event;
 
 public class Main {
@@ -26,5 +27,8 @@ public class Main {
 		for(Event x : list) {
 			System.out.println("Event: " + x.getName());
 		}
+		
+		System.out.println("session open count: " + HibernateSessionFactory.getSessionOpenCount());
+		HibernateSessionFactory.closeSession();
 	}
 }
