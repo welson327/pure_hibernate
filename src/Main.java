@@ -2,6 +2,8 @@
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.criterion.Order;
+
 import my.dao.EventDao;
 import my.dao.impl.EventDaoImpl;
 import my.hibernate.HibernateSessionFactory;
@@ -23,7 +25,7 @@ public class Main {
 		eventDao.insert(e);
 		
 		// query
-		List<Event> list = eventDao.list(e, null, 0, 3);
+		List<Event> list = eventDao.list(e, Order.desc("datetime"), 0, 3);
 		for(Event x : list) {
 			System.out.println("Event: " + x.getName());
 		}
