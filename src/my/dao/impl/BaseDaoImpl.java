@@ -3,6 +3,7 @@ package my.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 
@@ -25,12 +26,12 @@ public class BaseDaoImpl<T> extends HibernateSessionManager implements BaseDao<T
 	}
 
 	@Override
-	public List list(T entity, Order order, int offset, int limit) {
-		List ret = null;
+	public List<T> list(T entity, Order order, int offset, int limit) {
+		List<T> ret = null;
 
-		ret = execTemplate(new HibernateCallback<List>() {
+		ret = execTemplate(new HibernateCallback<List<T>>() {
 			@Override
-			public List doInHibernate(Session session) {
+			public List<T> doInHibernate(Session session) {
 				Criteria c = session.createCriteria(entity.getClass());
 				
 				// hibernate 5.2+
@@ -54,5 +55,29 @@ public class BaseDaoImpl<T> extends HibernateSessionManager implements BaseDao<T
 		});
 		
 		return ret;
+	}
+	
+	public List<T> findBySql(String sqlStr, Class cls) {
+		return execTemplate(new HibernateCallback<List<T>>() {
+			@Override
+			public List<T> doInHibernate(Session session) {
+				return queryBySql(getSession(), sqlStr, cls);
+			}
+		});
+	}
+	
+	protected List<T> queryBySql(Session session, String sqlStr, Class cls) {
+		SQLQuery q = session.createSQLQuery(sqlStr);
+		//q.setParameterList("targetAdIdList", targetAdIdList);
+
+		if(cls != null) {
+			//q.addEntity(YourClass.class);
+			q.addEntity(cls); // if no entity defined, it will return rows data in Object[]
+		}
+		
+		//List rows = q.list(); // if no cls defined
+		List<T> resultList = q.list();
+
+		return resultList;
 	}
 }

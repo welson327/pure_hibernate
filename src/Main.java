@@ -23,11 +23,18 @@ public class Main {
 		e.setName("name-" + date.getTime());
 		e.setDatetime(date);
 		eventDao.insert(e);
+		System.out.println("Insert: id=" + e.getId());
 		
 		// query
 		List<Event> list = eventDao.list(e, Order.desc("datetime"), 0, 3);
 		for(Event x : list) {
-			System.out.println("Event: " + x.getName());
+			System.out.println("1. Event: " + x.getName());
+		}
+		
+		// query by native sql
+		List<Event> listBySql = eventDao.findBySql("SELECT events.* from events ORDER BY datetime DESC limit 3 offset 0", Event.class);
+		for(Event x : listBySql) {
+			System.out.println("2. Event: " + x.getName());
 		}
 		
 		System.out.println("session open count: " + HibernateSessionFactory.getSessionOpenCount());
