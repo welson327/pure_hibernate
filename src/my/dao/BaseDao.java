@@ -18,8 +18,6 @@ public interface BaseDao<T> {
 	/*
 	 * find by SQL
 	 * @param queryStr - ex: String query = "select id,name from City where stateId=?";
-	 * @param offset - start index
-	 * @param limit - return length
 	 * @param cls - class for return specific ORM object
 	 */
 	public List<T> findBySql(String sqlStr, Class cls);
