@@ -1,5 +1,6 @@
 package my.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -57,6 +58,17 @@ public class BaseDaoImpl<T> extends HibernateSessionManager implements BaseDao<T
 		return ret;
 	}
 	
+	@Override
+	public T findById(Class<T> cls, Serializable id) {
+		return execTemplate(new HibernateCallback<T>() {
+			@Override
+			public T doInHibernate(Session session) {
+				return session.get(cls, id);
+			}
+		});
+	}
+	
+	@Override
 	public List<T> findBySql(String sqlStr, Class cls) {
 		return execTemplate(new HibernateCallback<List<T>>() {
 			@Override
